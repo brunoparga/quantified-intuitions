@@ -1,4 +1,4 @@
-import { BoltIcon, PlayIcon } from "@heroicons/react/24/solid"
+import { PlayIcon } from "@heroicons/react/24/solid"
 import { AppCard } from "../components/AppCard"
 import { Footer } from "../components/Footer"
 import { MailingListSignup } from "../components/MailingListSignup"
@@ -6,42 +6,10 @@ import { NavbarGeneric } from "../components/NavbarGeneric"
 
 export const apps = [
   {
-    name: "Pastcasting",
-    description: "Predict past events to rapidly practise forecasting",
-    href: "/pastcasting",
-    icon: <PlayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-  },
-  {
-    name: "Calibration",
-    description: "Answer trivia questions to calibrate your uncertainty",
-    href: "/calibration",
-    icon: <PlayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-  },
-  {
     name: "The Estimation Game",
     description: "Team up with your friends to play our monthly estimation quiz",
     href: "/estimation-game",
     icon: <PlayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-  },
-  {
-    name: "Anki with Uncertainty",
-    description: "Turn any flashcard deck into a calibration training tool",
-    href: "/anki-with-uncertainty",
-    icon: <PlayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-  },
-  {
-    name: "Fatebook",
-    description: "The fastest way to track your predictions",
-    href: "https://fatebook.io",
-    icon: <PlayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-    verb: "Play"
-  },
-  {
-    name: "Fatebook for Slack",
-    description: "Track your predictions, right where your team works",
-    href: "https://fatebook.io/for-slack",
-    icon: <BoltIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-    verb: "Add to Slack" 
   },
 ]
 

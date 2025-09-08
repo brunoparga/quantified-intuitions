@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import SlackNotify from "slack-notify"
 import { Prisma } from "../../../lib/prisma"
 import { isCronJob } from "../../../lib/utils"
 
@@ -26,15 +25,7 @@ export default async function checkUpcomingGames(
   })
 
   if (upcomingGames.length === 0) {
-    if (!process.env.SAGE_SLACK_WEBHOOK_URL) {
-      console.error("Set SAGE_SLACK_WEBHOOK_URL")
-      return res.status(500).json({ error: "Slack webhook URL not set" })
-    }
-
-    await SlackNotify(process.env.SAGE_SLACK_WEBHOOK_URL).send({
-      text: "Warning: no upcoming estimation game",
-      unfurl_links: 0,
-    })
+    console.warn("Warning: no upcoming estimation game")
   }
 
   res.status(200).json({

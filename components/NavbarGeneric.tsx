@@ -103,9 +103,9 @@ export const NavbarGeneric = () => {
                 </div>
                 <div className="flex items-center">
                   <div className="hidden lg:ml-6 lg:flex lg:items-center">
-                    <Link href="https://sage-future.org/jobs">
+                    <Link href="/estimation-game">
                       <button className="btn normal-case min-h-[40px] h-auto mr-2">
-                        {"We're hiring!"}
+                        {"Play Estimation Game"}
                       </button>
                     </Link>
                     {/*

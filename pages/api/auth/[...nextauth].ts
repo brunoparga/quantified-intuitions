@@ -5,29 +5,11 @@ import GoogleProvider from "next-auth/providers/google"
 
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
-import { subscribeToMailingList } from "../email/subscribe"
 
 const prisma = new PrismaClient()
 
 export const authOptions: NextAuthOptions = {
-  adapter: {
-    ...PrismaAdapter(prisma),
-    createUser: async (user: any) => {
-      const createdUser = await PrismaAdapter(prisma).createUser(user)
-
-      if (createdUser.email) {
-        void subscribeToMailingList([
-          {
-            email: createdUser.email,
-            tags: ["qi-user"],
-            products: ["Quantified Intuitions"],
-          },
-        ])
-      }
-
-      return createdUser
-    },
-  },
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",

@@ -46,10 +46,6 @@ model User {
   challengeLeaderboardBanned Boolean                  @default(false)
   accounts                   Account[]
   sessions                   Session[]
-  pastcasts                  Pastcast[]
-  searches                   Search[]
-  commentInteractions        UserCommentInteraction[]
-  rooms                      Room[]
   CalibrationAnswer          CalibrationAnswer[]
   teams                      Team[]
 }
@@ -62,106 +58,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Question {
-  id               String     @id @default(cuid())
-  title            String
-  description      String?
-  crowdForecast    Float?
-  isDeleted        Boolean    @default(false)
-  vantageDate      DateTime
-  binaryResolution Boolean
-  url              String?
-  platform         String?
-  fetched          DateTime?
-  pastcasts        Pastcast[]
-  comments         Comment[]
-  rooms            Room[]
-}
-
-model Comment {
-  // E.g. "metaculus-123"
-  id              String   @id @default(cuid())
-  isDeleted       Boolean  @default(false)
-  content         String
-  createdAt       DateTime
-  voteTotal       Int      @default(0)
-  parentCommentId String?
-  questionId      String
-  authorName      String
-  predictionValue Float?
-  fetched         DateTime @db.Timestamp(6)
-  platform        String
-  question        Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
-}
-
-model Pastcast {
-  userId            String
-  questionId        String
-  binaryProbability Float?
-  score             Float
-  skipped           Boolean  @default(false)
-  createdAt         DateTime @default(now())
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  question          Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  timeSpent         Int?     @default(0)
-  room              Room?    @relation(fields: [roomId], references: [id])
-  roomId            String?
-  comment           String?
-
-  @@id([questionId, userId])
-}
-
-model NewComment {
-  id                String                   @id @default(cuid())
-  content           String
-  questionId        String
-  authorId          String
-  parentCommentId   String?
-  createdAt         DateTime                 @default(now())
-  binaryProbability Float?
-  userInteraction   UserCommentInteraction[]
-}
-
-model UserCommentInteraction {
-  userId       String
-  newCommentId String
-  upvotes      Int        @default(0)
-  comment      NewComment @relation(fields: [newCommentId], references: [id], onDelete: Cascade)
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([userId, newCommentId])
-}
-
-model Search {
-  id       String         @id @default(cuid())
-  userId   String
-  finished Boolean        @default(false)
-  results  SearchResult[]
-  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model SearchResult {
-  id         String  @id @default(cuid())
-  position   Int
-  waybackUrl String
-  searchId   String?
-  search     Search? @relation(fields: [searchId], references: [id])
-}
-
-model Room {
-  id                    String     @id @default(cuid())
-  name                  String
-  createdAt             DateTime   @default(now())
-  maxSecondsPerQuestion Int        @default(600)
-  totalQuestions        Int        @default(1)
-  currentQuestionId     String?
-  hostId                String?
-  currentStartTime      DateTime?
-  isFinshed             Boolean    @default(false)
-  pastcasts             Pastcast[]
-  questions             Question[]
-  members               User[]
-}
 
 model CalibrationQuestion {
   id                 String                   @id @default(cuid())
@@ -272,20 +168,3 @@ model TeamAboveBelowAnswer {
   question   AboveBelowQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }
 
-model MailingListSubscriber {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  products  String[]
-  tags      String[]
-}
-
-model Feedback {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  type      String
-  message   String
-  email     String?
-  userId    String?
-}
