@@ -6,7 +6,7 @@ import { Fragment } from "react";
 
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
-  ArrowLeftOnRectangleIcon, Bars3Icon, ScaleIcon, XMarkIcon
+  Bars3Icon, ScaleIcon, XMarkIcon
 } from "@heroicons/react/24/outline";
 
 import { NextSeo } from "next-seo";
@@ -21,27 +21,7 @@ export const NavbarChallenge = () => {
     imageUrl: session?.user?.image ?? STOCK_PHOTO,
   };
   const { pathname } = useRouter();
-  const navigation = [
-    {
-      name: "The Estimation Game",
-      href: "/estimation-game",
-      current: pathname === "/estimation-game",
-    },
-    {
-      name: "Info for organisers",
-      href: "/estimation-game/for-organisers",
-      current: pathname === "/estimation-game/for-organisers",
-    },
-    {
-      name: "Discord",
-      href: "https://discord.gg/mt9YVB8VDE",
-      current: false,
-    },
-    /*
-    { name: "Projects", href: "#", current: false },
-    { name: "Calendar", href: "#", current: false },
-    */
-  ];
+  const navigation = [];
   const userNavigation = [
     /*
     { name: "Your Profile", href: "#" },
@@ -50,7 +30,7 @@ export const NavbarChallenge = () => {
     session
       ? {
         name: "Settings",
-        href: "/estimation-game/settings",
+        href: "/settings",
       }
       : null,
     {
@@ -103,40 +83,11 @@ export const NavbarChallenge = () => {
                   />
                 </div>
                 */}
-                  <div className="hidden lg:-my-px lg:ml-6 lg:flex lg:space-x-8">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        aria-current={item.current ? "page" : undefined}
-                      >
-                        <a className={clsx(
-                          item.current
-                            ? "border-indigo-500 text-gray-900"
-                            : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
-                          "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                        )}>
-                          {item.name}
-                        </a>
-                      </Link>
-                    ))}
+                  <div className="hidden lg:-my-px lg:ml-6 lg:flex lg:items-center">
+                    <h1 className="text-xl font-semibold text-gray-900">The Estimation Game</h1>
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <div className="flex-shrink-0 hidden md:block">
-                    <Link href="/" passHref>
-                      <a
-                        type="button"
-                        className="relative inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      >
-                        <ArrowLeftOnRectangleIcon
-                          className="-ml-1 mr-2 h-5 w-5"
-                          aria-hidden="true"
-                        />
-                        <span>More tools</span>
-                      </a>
-                    </Link>
-                  </div>
 
                   <div className="hidden lg:ml-6 lg:flex lg:items-center">
                     {/*
@@ -204,22 +155,9 @@ export const NavbarChallenge = () => {
 
             <Disclosure.Panel className="lg:hidden">
               <div className="pt-2 pb-3 space-y-1">
-                {navigation.map((item) => (
-                  <Disclosure.Button
-                    key={item.name}
-                    as="a"
-                    href={item.href}
-                    className={clsx(
-                      item.current
-                        ? "bg-indigo-50 border-indigo-500 text-indigo-700"
-                        : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800",
-                      "block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-                    )}
-                    aria-current={item.current ? "page" : undefined}
-                  >
-                    {item.name}
-                  </Disclosure.Button>
-                ))}
+                <div className="pl-3 pr-4 py-2">
+                  <h1 className="text-lg font-semibold text-gray-900">The Estimation Game</h1>
+                </div>
               </div>
               <div className="pt-4 pb-3 border-t border-gray-200">
                 <div className="flex items-center px-4">

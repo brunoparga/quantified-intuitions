@@ -3,13 +3,12 @@ import { Session } from "next-auth"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { Challenge } from "../../../components/Challenge"
-import { Footer } from "../../../components/Footer"
-import { JoinChallenge } from "../../../components/JoinChallenge"
-import { NavbarChallenge } from "../../../components/NavbarChallenge"
-import { Prisma } from "../../../lib/prisma"
-import { ChallengeWithTeamsWithUsersAndQuestions } from "../../../types/additional"
-import { auth } from "../../../lib/auth"
+import { Challenge } from "../components/Challenge"
+import { JoinChallenge } from "../components/JoinChallenge"
+import { NavbarChallenge } from "../components/NavbarChallenge"
+import { Prisma } from "../lib/prisma"
+import { ChallengeWithTeamsWithUsersAndQuestions } from "../types/additional"
+import { auth } from "../lib/auth"
 
 export type ChallengeProps = {
   challenge: ChallengeWithTeamsWithUsersAndQuestions
@@ -78,13 +77,12 @@ const ChallengePage: NextPage<ChallengeProps> = ({ challenge }) => {
           (
             <div className="py-10 bg-gray-100 grow">
               <p className="prose max-w-prose m-auto">{"That Estimation Game doesn't exist. "} 
-                <Link href="/estimation-game">{"See all public current and upcoming games."}</Link>
+                <Link href="/">{"See all public current and upcoming games."}</Link>
               </p>
             </div>
           )
       }
 
-      <Footer />
     </div>
   )
 }

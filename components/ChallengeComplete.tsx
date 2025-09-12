@@ -8,7 +8,6 @@ import { AppCard } from "./AppCard"
 import { ChallengeLeaderboard } from "./ChallengeLeaderboard"
 import { MailingListSignup } from "./MailingListSignup"
 import { OpenEndedQuestions } from "./OpenEndedQuestions"
-import { QuickFeedback } from "./QuickFeedback"
 
 export function ChallengeComplete({
   challenge,
@@ -50,13 +49,6 @@ export function ChallengeComplete({
       </div>
 
       <div>
-        <div className="text-center my-12 mx-auto">
-          <QuickFeedback
-            placeholder="Suggest a question for a future Estimation Game..."
-            type="TEG suggest question"
-            style="textarea"
-          />
-        </div>
 
         <div className="max-w-sm my-12 mx-auto">
           <MailingListSignup
@@ -67,7 +59,7 @@ export function ChallengeComplete({
 
         <div className="text-center">
           <Link
-            href={`/estimation-game/leaderboard`}
+            href={`/leaderboard`}
             passHref
             className="mx-auto"
           >

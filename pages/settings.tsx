@@ -1,12 +1,12 @@
 import { GetServerSideProps } from "next";
-import { auth } from "../../lib/auth";
+import { auth } from "../lib/auth";
 
 import { User } from "@prisma/client";
 
-import { Footer } from "../../components/Footer";
-import { NavbarChallenge } from "../../components/NavbarChallenge";
-import { Settings } from "../../components/Settings";
-import { Prisma } from "../../lib/prisma";
+;
+import { NavbarChallenge } from "../components/NavbarChallenge";
+import { Settings } from "../components/Settings";
+import { Prisma } from "../lib/prisma";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await auth(ctx.req, ctx.res);
@@ -31,7 +31,6 @@ const SettingsPage = ({ user }: { user: User }) => {
     <div className="flex flex-col min-h-screen justify-between">
       <NavbarChallenge />
       <Settings user={user} />
-      <Footer />
     </div>
   );
 };

@@ -103,7 +103,7 @@ export const NavbarGeneric = () => {
                 </div>
                 <div className="flex items-center">
                   <div className="hidden lg:ml-6 lg:flex lg:items-center">
-                    <Link href="/estimation-game">
+                    <Link href="/">
                       <button className="btn normal-case min-h-[40px] h-auto mr-2">
                         {"Play Estimation Game"}
                       </button>

@@ -116,7 +116,7 @@ export const JoinChallenge = ({
                       <span>
                         {"See how your scores compare on the "}
                         <Link
-                          href={`/estimation-game/${challenge.id}/leaderboard`}
+                          href={`/${challenge.id}/leaderboard`}
                         >
                           <a className="underline">leaderboard</a>
                         </Link>

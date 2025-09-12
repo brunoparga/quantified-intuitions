@@ -5,13 +5,12 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import QRCode from "react-qr-code"
-import { ChallengeLeaderboard } from "../../../components/ChallengeLeaderboard"
-import { Footer } from "../../../components/Footer"
-import { LoadingButton } from "../../../components/LoadingButton"
-import { NavbarChallenge } from "../../../components/NavbarChallenge"
-import { Prisma } from "../../../lib/prisma"
-import { ChallengeWithTeamsWithUsersAndQuestions } from "../../../types/additional"
-import { auth } from "../../../lib/auth"
+import { ChallengeLeaderboard } from "../components/ChallengeLeaderboard"
+import { LoadingButton } from "../components/LoadingButton"
+import { NavbarChallenge } from "../components/NavbarChallenge"
+import { Prisma } from "../lib/prisma"
+import { ChallengeWithTeamsWithUsersAndQuestions } from "../types/additional"
+import { auth } from "../lib/auth"
 
 export type ChallengeProps = {
   challenge: ChallengeWithTeamsWithUsersAndQuestions
@@ -79,7 +78,7 @@ const Leaderboard: NextPage<ChallengeProps> = ({ challenge }) => {
                   {"Leaderboard"}
                 </h2>
                 <h3 className="text-gray-600 prose">
-                  <Link href={`/estimation-game/${challenge.id}`}>{challenge.name}</Link>
+                  <Link href={`/${challenge.id}`}>{challenge.name}</Link>
                 </h3>
                 {!showJoinCode && <div className="mt-8">
                   <LoadingButton
@@ -90,8 +89,8 @@ const Leaderboard: NextPage<ChallengeProps> = ({ challenge }) => {
                 </div>}
                 {showJoinCode && 
                 <div className="mx-auto text-center my-8">
-                  <p className="prose">Join game: <Link href={`/estimation-game/${challenge.id}`}>{`quantifiedintuitions.org/estimation-game/${challenge.id}`}</Link></p>
-                  <QRCode value={`https://quantifiedintuitions.org/estimation-game/${challenge.id}`} size={300} className="flex-grow mx-auto pt-8 aspect-square" />
+                  <p className="prose">Join game: <Link href={`/${challenge.id}`}>{`quantifiedintuitions.org/${challenge.id}`}</Link></p>
+                  <QRCode value={`https://quantifiedintuitions.org/${challenge.id}`} size={300} className="flex-grow mx-auto pt-8 aspect-square" />
                 </div>}
                 <ChallengeLeaderboard challengeId={challenge.id} latestQuestion={null} teamId={usersTeam?.id} />
               </div>
@@ -101,13 +100,12 @@ const Leaderboard: NextPage<ChallengeProps> = ({ challenge }) => {
           (
             <div className="py-10 bg-gray-100 grow">
               <p className="prose max-w-prose m-auto">{"That Estimation Game doesn't exist. "}
-                <Link href="/estimation-game">{"See all public current and upcoming games."}</Link>
+                <Link href="/">{"See all public current and upcoming games."}</Link>
               </p>
             </div>
           )
       }
 
-      <Footer />
     </div>
   )
 }

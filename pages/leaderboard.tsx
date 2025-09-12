@@ -2,9 +2,8 @@ import { NextPage } from "next"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { ChallengeLeaderboardAllTime } from "../../components/ChallengeLeaderboardAllTime"
-import { Footer } from "../../components/Footer"
-import { NavbarChallenge } from "../../components/NavbarChallenge"
+import { ChallengeLeaderboardAllTime } from "../components/ChallengeLeaderboardAllTime"
+import { NavbarChallenge } from "../components/NavbarChallenge"
 
 const Leaderboard: NextPage<{}> = () => {
   const { data: session } = useSession()
@@ -20,13 +19,12 @@ const Leaderboard: NextPage<{}> = () => {
           {"All-time leaderboard"}
         </h2>
         <h3 className="text-gray-600 prose">
-          <Link href={`/estimation-game`}>The Estimation Game</Link>
+          <Link href={`/`}>The Estimation Game</Link>
         </h3>
         <ChallengeLeaderboardAllTime userId={user?.id} />
       </div>
     </div>
 
-      <Footer />
     </div>
   )
 }

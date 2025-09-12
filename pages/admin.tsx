@@ -4,11 +4,10 @@ import {
   Challenge,
 } from "@prisma/client"
 import { GetServerSideProps } from "next"
-import { auth } from "../../lib/auth"
+import { auth } from "../lib/auth"
 import { useEffect, useState } from "react"
-import { Footer } from "../../components/Footer"
-import { NavbarChallenge } from "../../components/NavbarChallenge"
-import { Prisma } from "../../lib/prisma"
+import { NavbarChallenge } from "../components/NavbarChallenge"
+import { Prisma } from "../lib/prisma"
 
 const adminEmails =
   process.env.ESTIMATION_GAME_ADMIN_EMAILS_COMMA_SEPARATED?.split(",") || []
@@ -75,7 +74,6 @@ const AdminPage = ({
           </div>
         </main>
       </div>
-      <Footer />
     </div>
   )
 }
@@ -86,7 +84,7 @@ const ChallengeTable = ({
   challenges: ChallengeWithQuestions[]
 }) => {
   const handleView = (id: string) => {
-    window.open(`/estimation-game/${id}`, "_blank")
+    window.open(`/${id}`, "_blank")
   }
 
   return (
