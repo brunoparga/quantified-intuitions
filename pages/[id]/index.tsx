@@ -3,12 +3,12 @@ import { Session } from "next-auth"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { Challenge } from "../components/Challenge"
-import { JoinChallenge } from "../components/JoinChallenge"
-import { NavbarChallenge } from "../components/NavbarChallenge"
-import { Prisma } from "../lib/prisma"
-import { ChallengeWithTeamsWithUsersAndQuestions } from "../types/additional"
-import { auth } from "../lib/auth"
+import { Challenge } from "../../components/Challenge"
+import { JoinChallenge } from "../../components/JoinChallenge"
+import { NavbarChallenge } from "../../components/NavbarChallenge"
+import { Prisma } from "../../lib/prisma"
+import { ChallengeWithTeamsWithUsersAndQuestions } from "../../types/additional"
+import { auth } from "../../lib/auth"
 
 export type ChallengeProps = {
   challenge: ChallengeWithTeamsWithUsersAndQuestions

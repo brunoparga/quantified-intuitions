@@ -15,7 +15,6 @@ import { MailingListSignup } from "../components/MailingListSignup"
 import { NavbarChallenge } from "../components/NavbarChallenge"
 import { Prisma } from "../lib/prisma"
 import { fetcher } from "../lib/services/data"
-import { auth } from "../lib/auth"
 
 export const getStaticProps = async () => {
   const activeChallenges = await Prisma.challenge.findMany({
@@ -67,7 +66,7 @@ const ChallengePage = ({
                 challenge={challenge}
                 key={challenge.id}
                 user={user}
-                onJoin={() => router.replace(`estimation-game/${challenge.id}`)}
+                onJoin={() => router.replace(`/${challenge.id}`)}
               />
             ))}
           <div className="max-w-3xl mx-auto my-4">

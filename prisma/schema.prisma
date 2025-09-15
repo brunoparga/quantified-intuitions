@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -16,12 +16,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -38,16 +38,16 @@ model Session {
 }
 
 model User {
-  id                         String                   @id @default(cuid())
-  name                       String?
-  email                      String?                  @unique
-  emailVerified              DateTime?
-  image                      String?
-  challengeLeaderboardBanned Boolean                  @default(false)
-  accounts                   Account[]
-  sessions                   Session[]
-  CalibrationAnswer          CalibrationAnswer[]
-  teams                      Team[]
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  name      String?
+  email     String?  @unique
+  emailVerified DateTime?
+  image     String?
+  accounts  Account[]
+  sessions  Session[]
+  teams     Team[]
 }
 
 model VerificationToken {
@@ -59,61 +59,18 @@ model VerificationToken {
 }
 
 
-model CalibrationQuestion {
-  id                 String                   @id @default(cuid())
-  isDeleted          Boolean                  @default(false)
-  content            String
-  answer             Float
-  prefix             String                   @default("")
-  postfix            String                   @default("")
-  useLogScoring      Boolean                  @default(false)
-  C                  Float                    @default(100)
-  source             String                   @default("")
-  challengeOnly      Boolean                  @default(false)
-  context            String                   @default("")
-  calibrationAnswers CalibrationAnswer[]
-  challenges         Challenge[]
-  teamAnswers        TeamFermiAnswer[]
-  tags               CalibrationQuestionTag[]
-}
-
-model CalibrationQuestionTag {
-  id                 String                @id @default(cuid())
-  showInDeckSwitcher Boolean               @default(false)
-  name               String
-  description        String?
-  questions          CalibrationQuestion[]
-}
-
-model CalibrationAnswer {
-  id         String              @id @default(cuid())
-  isDeleted  Boolean             @default(false)
-  userId     String
-  questionId String
-  confidence Float               @default(0.5)
-  lowerBound Float
-  upperBound Float
-  median     Float?
-  score      Float
-  timeSpent  Int?                @default(0)
-  correct    Boolean
-  createdAt  DateTime            @default(now())
-  user       User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  question   CalibrationQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
-}
-
 model Challenge {
   id                  String                @id @default(cuid())
-  isDeleted           Boolean               @default(false)
   name                String
   subtitle            String?
   startDate           DateTime
   endDate             DateTime
-  fermiQuestions      CalibrationQuestion[]
-  aboveBelowQuestions AboveBelowQuestion[]
-  teams               Team[]
+  isDeleted           Boolean               @default(false)
   unlisted            Boolean               @default(false)
   createdAt           DateTime              @default(now())
+  teams               Team[]
+  fermiQuestions      CalibrationQuestion[]
+  aboveBelowQuestions AboveBelowQuestion[]
 }
 
 model Team {
@@ -124,18 +81,31 @@ model Team {
   challenge            Challenge              @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   users                User[]
   fermiAnswers         TeamFermiAnswer[]
-  TeamAboveBelowAnswer TeamAboveBelowAnswer[]
+  aboveBelowAnswers    TeamAboveBelowAnswer[]
+}
+
+model CalibrationQuestion {
+  id                 String                   @id @default(cuid())
+  isDeleted          Boolean                  @default(false)
+  content            String
+  answer             Float
+  prefix             String                   @default("")
+  postfix            String                   @default("")
+  useLogScoring      Boolean                  @default(false)
+  C                  Float                    @default(100)
+  source             String                   @default("")
+  context            String                   @default("")
+  challenges         Challenge[]
+  teamAnswers        TeamFermiAnswer[]
 }
 
 model TeamFermiAnswer {
   id         String              @id @default(cuid())
   teamId     String
   questionId String
-  skipped    Boolean             @default(false)
   lowerBound Float?
   upperBound Float?
   score      Float
-  timeSpent  Int?                @default(0)
   correct    Boolean
   createdAt  DateTime            @default(now())
   team       Team                @relation(fields: [teamId], references: [id], onDelete: Cascade)
@@ -158,11 +128,9 @@ model TeamAboveBelowAnswer {
   id         String             @id @default(cuid())
   teamId     String
   questionId String
-  skipped    Boolean            @default(false)
-  score      Float
-  timeSpent  Int?               @default(0)
-  correct    Boolean
   confidence Float
+  score      Float
+  correct    Boolean
   createdAt  DateTime           @default(now())
   team       Team               @relation(fields: [teamId], references: [id], onDelete: Cascade)
   question   AboveBelowQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
