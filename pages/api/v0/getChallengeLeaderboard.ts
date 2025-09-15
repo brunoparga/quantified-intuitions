@@ -59,17 +59,7 @@ export async function getChallengeLeaderboard(
       id: challengeId,
     },
     include: {
-      teams: {
-        where: {
-          NOT: {
-            users: {
-              some: {
-                challengeLeaderboardBanned: true,
-              },
-            },
-          },
-        },
-      },
+      teams: true,
       fermiQuestions: {
         include: {
           teamAnswers: true,
