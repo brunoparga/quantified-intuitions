@@ -1,6 +1,4 @@
 import { GetServerSideProps, NextPage } from "next"
-import { Session } from "next-auth"
-import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
@@ -9,21 +7,15 @@ import { ChallengeLeaderboard } from "../components/ChallengeLeaderboard"
 import { LoadingButton } from "../components/LoadingButton"
 import { NavbarChallenge } from "../components/NavbarChallenge"
 import { Prisma } from "../lib/prisma"
-import { ChallengeWithTeamsWithUsersAndQuestions } from "../types/additional"
-import { auth } from "../lib/auth"
+import { ChallengeWithTeamsAndQuestions } from "../types/additional"
 
 export type ChallengeProps = {
-  challenge: ChallengeWithTeamsWithUsersAndQuestions
-  session: Session
+  challenge: ChallengeWithTeamsAndQuestions
 }
 
 export const getServerSideProps: GetServerSideProps<ChallengeProps | {}> = async (
   ctx
 ) => {
-  const session = await auth(ctx.req, ctx.res)
-  if (!session) {
-    return { props: {} }
-  }
   const challengeId = ctx.query.id as string
 
   const challenge = await Prisma.challenge.findUnique({
@@ -39,31 +31,20 @@ export const getServerSideProps: GetServerSideProps<ChallengeProps | {}> = async
           teamAnswers: true
         }
       },
-      teams: {
-        include: {
-          users: true
-        },
-      },
+      teams: true,
     },
   })
   return {
     props: {
-      session,
       challenge,
     },
   }
 }
 
 const Leaderboard: NextPage<ChallengeProps> = ({ challenge }) => {
-  const { data: session } = useSession()
   const router = useRouter()
-  const user = session?.user
 
   const [showJoinCode, setShowJoinCode] = useState(false)
-
-  const usersTeam = challenge?.teams.find((team) =>
-    team.users.some((theUser) => theUser.id === user?.id)
-  )
 
   return (
     <div className="flex flex-col min-h-screen justify-between">
@@ -92,14 +73,14 @@ const Leaderboard: NextPage<ChallengeProps> = ({ challenge }) => {
                   <p className="prose">Join game: <Link href={`/${challenge.id}`}>{`quantifiedintuitions.org/${challenge.id}`}</Link></p>
                   <QRCode value={`https://quantifiedintuitions.org/${challenge.id}`} size={300} className="flex-grow mx-auto pt-8 aspect-square" />
                 </div>}
-                <ChallengeLeaderboard challengeId={challenge.id} latestQuestion={null} teamId={usersTeam?.id} />
+                <ChallengeLeaderboard challengeId={challenge.id} latestQuestion={null} teamId={null} />
               </div>
             </div>
           )
           :
           (
             <div className="py-10 bg-gray-100 grow">
-              <p className="prose max-w-prose m-auto">{"That Estimation Game doesn't exist. "}
+              <p className="prose max-w-prose m-auto">{"That Estimation Game doesn't exist. "} 
                 <Link href="/">{"See all public current and upcoming games."}</Link>
               </p>
             </div>

@@ -1,8 +1,6 @@
-import { event } from "nextjs-google-analytics";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { LoadingButton } from "./LoadingButton";
 
 export function OpenEndedQuestions({
 
@@ -45,15 +43,12 @@ export function OpenEndedQuestions({
               className=" relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               onClick={() => {
                 setShowQuestions(true)
-                event("estimation_game_show_open_ended_questions", {
-                  app: "estimation_game",
-                });
               }}
             >
               {"Want to keep playing? Try some more open-ended questions"}
             </button>
           </>
       }
-    </div >
+    </div>
   )
 }

@@ -1,27 +1,20 @@
 import { GetServerSideProps, NextPage } from "next"
-import { Session } from "next-auth"
-import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
 import { Challenge } from "../../components/Challenge"
 import { JoinChallenge } from "../../components/JoinChallenge"
 import { NavbarChallenge } from "../../components/NavbarChallenge"
 import { Prisma } from "../../lib/prisma"
-import { ChallengeWithTeamsWithUsersAndQuestions } from "../../types/additional"
-import { auth } from "../../lib/auth"
+import { ChallengeWithTeamsAndQuestions } from "../../types/additional"
 
 export type ChallengeProps = {
-  challenge: ChallengeWithTeamsWithUsersAndQuestions
-  session: Session
+  challenge: ChallengeWithTeamsAndQuestions
 }
 
 export const getServerSideProps: GetServerSideProps<ChallengeProps | {}> = async (
   ctx
 ) => {
-  const session = await auth(ctx.req, ctx.res)
-  if (!session) {
-    return { props: {} }
-  }
   const challengeId = ctx.query.id as string
 
   const challenge = await Prisma.challenge.findUnique({
@@ -37,29 +30,28 @@ export const getServerSideProps: GetServerSideProps<ChallengeProps | {}> = async
           teamAnswers: true
         }
       },
-      teams: {
-        include: {
-          users: true
-        },
-      },
+      teams: true,
     },
   })
   return {
     props: {
-      session,
       challenge,
     },
   }
 }
 
 const ChallengePage: NextPage<ChallengeProps> = ({ challenge }) => {
-  const { data: session } = useSession()
   const router = useRouter()
-  const user = session?.user
+  const [teamId, setTeamId] = useState<string | null>(null)
 
-  const usersTeam = challenge?.teams.find((team) =>
-    team.users.some((theUser) => theUser.id === user?.id)
-  )
+  useEffect(() => {
+    if (router.isReady) {
+      const { teamId: queryTeamId } = router.query
+      if (queryTeamId && typeof queryTeamId === 'string') {
+        setTeamId(queryTeamId)
+      }
+    }
+  }, [router.isReady, router.query])
 
   return (
     <div className="flex flex-col min-h-screen justify-between">
@@ -68,10 +60,12 @@ const ChallengePage: NextPage<ChallengeProps> = ({ challenge }) => {
       {
         challenge ?
           (
-            usersTeam ?
-              <Challenge teamId={usersTeam.id} challenge={challenge} />
+            teamId ?
+              <Challenge challenge={challenge} teamId={teamId} />
               :
-              user && <JoinChallenge challenge={challenge} user={user} onJoin={() => {router.replace(router.asPath)}} />
+              <JoinChallenge challenge={challenge} user={null} onJoin={(teamId) => {
+                router.push(`/${challenge.id}?teamId=${teamId}`)
+              }} />
           )
           :
           (

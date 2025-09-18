@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "CalibrationQuestion" ADD COLUMN     "C" DOUBLE PRECISION NOT NULL DEFAULT 100;

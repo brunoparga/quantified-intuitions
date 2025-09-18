@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { getServerSession } from "next-auth"
 import { serialize } from "superjson"
 
 import { Prisma } from "../../../lib/prisma"
-import { authOptions } from "../auth/[...nextauth]"
 
 interface Request extends NextApiRequest {
   query: {
@@ -14,14 +12,7 @@ interface Request extends NextApiRequest {
 const getCalibrationQuestion = async (req: Request, res: NextApiResponse) => {
   const { tags } = req.query
 
-  const session = await getServerSession(req, res, authOptions)
-
-  if (!session) {
-    res.status(401).json({
-      error: "unauthorized",
-    })
-    return
-  }
+  // No authentication required for challenge mode
 
   const uniqueCalibrationQuestions = await Prisma.calibrationQuestion.findMany({
     where: {

@@ -1,10 +1,4 @@
-export { default } from "next-auth/middleware"
-// Require login on matching URLs:
+// No authentication middleware needed for challenge mode
 export const config = {
-  matcher: [
-    "/admin",
-    "/leaderboard", 
-    "/settings",
-    "/:id+", // any dynamic route with at least one segment (excludes root)
-  ],
+  matcher: [],
 }

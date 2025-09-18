@@ -9,20 +9,10 @@ import {
   Team,
   TeamAboveBelowAnswer,
   TeamFermiAnswer,
-  User,
 } from "@prisma/client"
 
 export type PastcastWithQuestion = Pastcast & {
   question: Question
-}
-
-export type UserWithPastcastsWithQuestionWithCalibrationAnswers = User & {
-  pastcasts: PastcastWithQuestion[]
-  CalibrationAnswer: CalibrationAnswer[]
-}
-
-export type UserWithPastcasts = User & {
-  pastcasts: Pastcast[]
 }
 
 export type QuestionWithComments = Question & {
@@ -34,16 +24,6 @@ export type QuestionWithCommentsAndPastcasts = Question & {
   pastcasts: Pastcast[]
 }
 
-export type ChallengeWithTeamsWithUsersAndQuestions = Challenge & {
-  teams: TeamWithUsers[]
-  fermiQuestions: (CalibrationQuestion & {
-    teamAnswers: TeamFermiAnswer[]
-  })[]
-  aboveBelowQuestions: (AboveBelowQuestion & {
-    teamAnswers: TeamAboveBelowAnswer[]
-  })[]
-}
-
 export type ChallengeWithTeamsAndQuestions = Challenge & {
   teams: Team[]
   fermiQuestions: (CalibrationQuestion & {
@@ -52,14 +32,6 @@ export type ChallengeWithTeamsAndQuestions = Challenge & {
   aboveBelowQuestions: (AboveBelowQuestion & {
     teamAnswers: TeamAboveBelowAnswer[]
   })[]
-}
-
-export type ChallengeWithTeamsWithUsers = Challenge & {
-  teams: TeamWithUsers[]
-}
-
-export type TeamWithUsers = Team & {
-  users: User[]
 }
 
 export type CalibrationOptions =

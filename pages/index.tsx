@@ -1,20 +1,8 @@
-import {
-  CheckCircleIcon,
-  PlayIcon,
-  TrophyIcon,
-} from "@heroicons/react/24/solid"
 import { Challenge } from "@prisma/client"
-import clsx from "clsx"
-import { useSession } from "next-auth/react"
-import Link from "next/link"
 import { useRouter } from "next/router"
-import useSWR from "swr"
-import { Countdown } from "../components/Countdown"
 import { JoinChallenge } from "../components/JoinChallenge"
-import { MailingListSignup } from "../components/MailingListSignup"
 import { NavbarChallenge } from "../components/NavbarChallenge"
 import { Prisma } from "../lib/prisma"
-import { fetcher } from "../lib/services/data"
 
 export const getStaticProps = async () => {
   const activeChallenges = await Prisma.challenge.findMany({
@@ -38,12 +26,6 @@ const ChallengePage = ({
   activeChallenges: Challenge[]
 }) => {
   const router = useRouter()
-  const { data: session } = useSession()
-  const user = session?.user
-  const { data: playedChallenges } = useSWR(
-    session?.user ? "/api/v0/getPlayedChallenges" : null,
-    fetcher
-  )
 
   return (
     <div className="flex flex-col min-h-screen justify-between">
@@ -65,154 +47,9 @@ const ChallengePage = ({
               <JoinChallenge
                 challenge={challenge}
                 key={challenge.id}
-                user={user}
-                onJoin={() => router.replace(`/${challenge.id}`)}
+                onJoin={(teamId) => router.replace(`/${challenge.id}?teamId=${teamId}`)}
               />
             ))}
-          <div className="max-w-3xl mx-auto my-4">
-            <h3 className="text-lg font-medium text-gray-900 text-center p-4">
-              Upcoming
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {activeChallenges
-                ?.filter((challenge) => challenge.startDate > new Date())
-                .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
-                .map((challenge) => (
-                  <div
-                    key={challenge.id}
-                    className="flex flex-col max-w-sm mx-auto py-8 px-4 sm:px-6 lg:px-8 bg-white shadow rounded-lg"
-                  >
-                    <p className="font-semibold">{challenge.name}</p>
-                    <p
-                      className={clsx(
-                        "text-gray-600 pb-2 text-sm",
-                        !challenge.subtitle && "text-transparent"
-                      )}
-                    >
-                      {challenge?.subtitle || "."}
-                    </p>
-                    <p className="text-gray-600 text-sm">
-                      {challenge.startDate.toDateString()} -{" "}
-                      {challenge.endDate.toDateString()}
-                    </p>
-                    <div className="mb-2">
-                      <Countdown
-                        countdownToDate={challenge.startDate}
-                        completeText={
-                          "The game begins! Refresh this page to join"
-                        }
-                        tickdownPrefix={"Starts in"}
-                        tickdownSuffix={""}
-                      />
-                    </div>
-
-                    <MailingListSignup
-                      buttonText="Remind me when it starts"
-                      tags={[
-                        "estimation-game-reminder",
-                        `estimation-game-reminder: ${challenge.name}`,
-                      ]}
-                    />
-                  </div>
-                ))}
-            </div>
-
-            <h3 className="text-lg font-medium text-gray-900 text-center p-4 pt-12">
-              Archives
-            </h3>
-            <div className="flex flex-wrap gap-2 gap-y-4">
-              {activeChallenges
-                ?.filter((challenge) => challenge.endDate < new Date())
-                .sort((a, b) => b.startDate.getTime() - a.startDate.getTime())
-                .map((challenge) => {
-                  const challengeComplete = playedChallenges?.includes(
-                    challenge.id
-                  )
-
-                  return (
-                    <div
-                      key={challenge.id}
-                      className="flex flex-col w-[19 rem] mx-auto py-8 px-4 sm:px-6 lg:px-8 bg-white shadow rounded-lg"
-                    >
-                      <p className="font-semibold">{challenge.name}</p>
-                      <p className="text-gray-500 text-sm pb-2">
-                        {challenge?.subtitle || "General knowledge"}
-                      </p>
-
-                      <div className="flex-shrink flex gap-2 py-2">
-                        <Link
-                          href={`/${challenge.id}`}
-                          passHref
-                        >
-                          <a
-                            type="button"
-                            className={clsx(
-                              "relative inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
-                              challengeComplete
-                                ? "bg-gray-400"
-                                : "bg-indigo-600"
-                            )}
-                          >
-                            {challengeComplete ? (
-                              <>
-                                <CheckCircleIcon
-                                  className="-ml-1 mr-2 h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                                <span>Played</span>
-                              </>
-                            ) : (
-                              <>
-                                <PlayIcon
-                                  className="-ml-1 mr-2 h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                                <span className="mr-3">Play</span>
-                              </>
-                            )}
-                          </a>
-                        </Link>
-                        <Link
-                          href={`/${challenge.id}/leaderboard`}
-                          passHref
-                        >
-                          <a
-                            type="button"
-                            className="relative inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                          >
-                            <TrophyIcon
-                              className="-ml-1 mr-2 h-5 w-5"
-                              aria-hidden="true"
-                            />
-                            <span>Leaderboard</span>
-                          </a>
-                        </Link>
-                      </div>
-                    </div>
-                  )
-                })}
-            </div>
-
-            <div className="text-center py-16">
-              <Link
-                href={`/leaderboard`}
-                passHref
-                className="mx-auto"
-              >
-                <a
-                  type="button"
-                  className="text-lg inline-flex mx-auto items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  <TrophyIcon
-                    className="-ml-1 mr-2 h-5 w-5"
-                    aria-hidden="true"
-                  />
-                  <span>All-time leaderboard</span>
-                </a>
-              </Link>
-            </div>
-
-          </div>
         </main>
       </div>
     </div>

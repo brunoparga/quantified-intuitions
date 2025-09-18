@@ -1,7 +1,6 @@
 import { InformationCircleIcon } from "@heroicons/react/24/solid"
-import { event } from "nextjs-google-analytics"
 import { useState } from "react"
-import { ChallengeWithTeamsWithUsersAndQuestions } from "../types/additional"
+import { ChallengeWithTeamsAndQuestions } from "../types/additional"
 import { AboveBelowForm } from "./AboveBelowForm"
 import { ChallengeComplete } from "./ChallengeComplete"
 import { ChallengeLeaderboard } from "./ChallengeLeaderboard"
@@ -12,7 +11,7 @@ export const Challenge = ({
   challenge,
   teamId,
 }: {
-  challenge: ChallengeWithTeamsWithUsersAndQuestions
+  challenge: ChallengeWithTeamsAndQuestions
   teamId: string
 }) => {
   const [fermiQuestionNum, setFermiQuestionNum] = useState(
@@ -68,14 +67,6 @@ export const Challenge = ({
   const aboveBelowQuestion =
     ((fermiComplete && !challengeComplete) || !challenge.aboveBelowQuestions) &&
     challenge.aboveBelowQuestions[aboveBelowQuestionNum]
-
-  const nextQuestionEvent = () =>
-    event("estimation_game_next_question", {
-      app: "estimation_game",
-      challenge_id: challenge.id,
-      challenge_name: challenge.name,
-      team_id: teamId,
-    })
 
   return (
     <div className="px-4 py-6 grow">
@@ -174,7 +165,6 @@ export const Challenge = ({
                 addToScore={(score) => setFermiScore(fermiScore + score)}
                 nextQuestion={() => {
                   setFermiQuestionNum(fermiQuestionNum + 1)
-                  nextQuestionEvent()
                 }}
                 reduceCountdown={() => {}}
                 setQuestionComplete={setQuestionComplete}
@@ -224,7 +214,6 @@ export const Challenge = ({
                   setQuestionComplete={setQuestionComplete}
                   nextQuestion={() => {
                     setAboveBelowQuestionNum(aboveBelowQuestionNum + 1)
-                    nextQuestionEvent()
                   }}
                   showScoringHint={false}
                 />
