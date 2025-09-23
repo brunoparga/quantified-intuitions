@@ -28,13 +28,6 @@ export const JoinChallenge = ({
     setErrors([])
     setSuccess("")
     setRateLimitError("")
-
-    // Validate team name length
-    if (data.teamName.length < 2 || data.teamName.length > 50) {
-      setErrors(["Team name must be between 2 and 50 characters"])
-      return
-    }
-
     setIsLoading(true)
     
     try {
@@ -96,17 +89,6 @@ export const JoinChallenge = ({
                       <span>{'Answer questions to train your estimation skills'}</span>
                     </li>
                     <li className="flex items-center space-x-3">
-                      <TrophyIcon className="flex-shrink-0 mr-1 w-5 h-5 text-indigo-500 inline-block" />
-                      <span>
-                        {"See how your scores compare on the "}
-                        <Link
-                          href={`/${challenge.id}/leaderboard`}
-                        >
-                          <a className="underline">leaderboard</a>
-                        </Link>
-                      </span>
-                    </li>
-                    <li className="flex items-center space-x-3">
                       <WifiIcon className="flex-shrink-0 mr-1 w-5 h-5 text-indigo-500 inline-block" />
                       <span>
                         {
@@ -132,7 +114,7 @@ export const JoinChallenge = ({
                       {...register("teamName")}
                       defaultValue={""}
                       autoFocus
-                      placeholder="Enter a team name provided by the organizer"
+                      placeholder="Ask the organizer for a team name"
                     />
                   </div>
                 </div>
