@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { serialize } from "superjson"
 
 import { AboveBelowQuestion, CalibrationQuestion, Team } from "@prisma/client"
-import { Prisma } from "../../../lib/prisma"
-import { ChallengeWithTeamsAndQuestions } from "../../../types/additional"
+import { Prisma } from "../../lib/prisma"
+import { ChallengeWithTeamsAndQuestions } from "../../types/additional"
 
 interface Request extends NextApiRequest {
   query: {

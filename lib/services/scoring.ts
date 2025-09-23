@@ -166,7 +166,5 @@ export const estimathonScore = (
   // multiply by 2^[incorrectCount]
   score *= Math.pow(2, incorrectCount);
 
-  console.log({ score, incorrectCount, questions });
-
   return score;
 };

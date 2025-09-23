@@ -7,15 +7,13 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
 }
 
 model Challenge {
   id                  String                @id @default(cuid())
   name                String
   subtitle            String?
-  startDate           DateTime
-  endDate             DateTime
   isDeleted           Boolean               @default(false)
   unlisted            Boolean               @default(false)
   createdAt           DateTime              @default(now())
@@ -68,6 +66,7 @@ model AboveBelowQuestion {
   quantity      String
   answerIsAbove Boolean
   preciseAnswer String
+  context       String                 @default("")
   source        String                 @default("")
   challenges    Challenge[]
   teamAnswers   TeamAboveBelowAnswer[]

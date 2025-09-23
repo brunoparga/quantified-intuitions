@@ -70,7 +70,7 @@ export const formatInput = (value: number, prefix: string, postfix: string) => {
   }
   return `${prefix.includes("$") ? "$" : ""}${numberToHumanReadableString(
     convertNumber(value, prefix.includes("10^"))
-  )}${postfix === "%" ? postfix : " " + postfix}`;
+  )}${postfix}`;
 };
 
 export const formatResult = (
@@ -84,12 +84,12 @@ export const formatResult = (
   return `${
     prefix.includes("10^")
       ? `${prefix}${Math.log10(value).toFixed(3)}${
-          postfix === "%" ? postfix : " " + postfix
+          postfix
         } or `
       : ""
   }${prefix.includes("$") ? "$" : ""}${numberToHumanReadableString(
     convertNumber(value, false)
-  )}${postfix === "%" ? postfix : " " + postfix}`;
+  )}${postfix}`;
 };
 
 export const truncateError = (error: number, median: number) => {

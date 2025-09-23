@@ -75,7 +75,7 @@ export const FermiForm = ({
       return
     }
 
-    await fetch("/api/v0/createTeamAnswer", {
+    await fetch("/api/createTeamAnswer", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -270,6 +270,13 @@ export const FermiForm = ({
                   calibrationQuestion.postfix
                 )}
               />
+              {calibrationQuestion.context && (
+                <div className="sm:col-span-6 block text-sm text-gray-600 text-center prose">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {calibrationQuestion.context}
+                  </ReactMarkdown>
+                </div>
+              )}
               <div className="sm:col-span-6 block text-sm font-medium text-gray-500 text-center prose">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {"Source: " + calibrationQuestion.source}

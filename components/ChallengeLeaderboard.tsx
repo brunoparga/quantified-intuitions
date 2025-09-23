@@ -9,7 +9,7 @@ import { SuperJSONValue } from "superjson/dist/types"
 import useSWR from "swr"
 import { fetcher } from "../lib/services/data"
 import { valueToString } from "../lib/services/format"
-import { getChallengeLeaderboardReturnType } from "../pages/api/v0/getChallengeLeaderboard"
+import { getChallengeLeaderboardReturnType } from "../pages/api/getChallengeLeaderboard"
 
 export const ChallengeLeaderboard = ({
   challengeId,
@@ -25,7 +25,7 @@ export const ChallengeLeaderboard = ({
 }) => {
   const { data } = useSWR<SuperJSONValue>(
     challengeId &&
-      `/api/v0/getChallengeLeaderboard?challengeId=${challengeId}${
+      `/api/getChallengeLeaderboard?challengeId=${challengeId}${
         latestQuestion
           ? `&latestQuestionIndexWithinType=${latestQuestion.indexWithinType}&latestQuestionType=${latestQuestion.type}`
           : ""
@@ -37,8 +37,6 @@ export const ChallengeLeaderboard = ({
     json: data?.json,
     meta: data?.meta,
   }) as getChallengeLeaderboardReturnType
-
-  console.log(formattedTeams)
 
   if (!formattedTeams) {
     return <div>Loading...</div>

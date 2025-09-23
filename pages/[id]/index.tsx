@@ -63,7 +63,7 @@ const ChallengePage: NextPage<ChallengeProps> = ({ challenge }) => {
             teamId ?
               <Challenge challenge={challenge} teamId={teamId} />
               :
-              <JoinChallenge challenge={challenge} user={null} onJoin={(teamId) => {
+              <JoinChallenge challenge={challenge} onJoin={(teamId) => {
                 router.push(`/${challenge.id}?teamId=${teamId}`)
               }} />
           )

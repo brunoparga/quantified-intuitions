@@ -37,19 +37,13 @@ const ChallengePage = ({
               <p>Check back soon for the next game</p>
             </div>
           )}
-          {activeChallenges
-            ?.filter(
-              (challenge) =>
-                challenge.startDate <= new Date() &&
-                challenge.endDate > new Date()
-            )
-            .map((challenge) => (
-              <JoinChallenge
-                challenge={challenge}
-                key={challenge.id}
-                onJoin={(teamId) => router.replace(`/${challenge.id}?teamId=${teamId}`)}
-              />
-            ))}
+          {activeChallenges?.map((challenge) => (
+            <JoinChallenge
+              challenge={challenge}
+              key={challenge.id}
+              onJoin={(teamId) => router.replace(`/${challenge.id}?teamId=${teamId}`)}
+            />
+          ))}
         </main>
       </div>
     </div>

@@ -38,7 +38,7 @@ export const JoinChallenge = ({
     setIsLoading(true)
     
     try {
-      const response = await fetch("/api/v0/createTeam", {
+      const response = await fetch("/api/createTeam", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

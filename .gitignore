@@ -48,3 +48,6 @@ yarn-error.log*
 *test.tsx
 *quickstats.ts
 *debugQuery.ts
+
+# data
+data/

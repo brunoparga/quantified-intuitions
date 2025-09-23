@@ -4,7 +4,6 @@ import { ChallengeWithTeamsAndQuestions } from "../types/additional"
 import { AboveBelowForm } from "./AboveBelowForm"
 import { ChallengeComplete } from "./ChallengeComplete"
 import { ChallengeLeaderboard } from "./ChallengeLeaderboard"
-import { Countdown } from "./Countdown"
 import { FermiForm } from "./FermiForm"
 
 export const Challenge = ({
@@ -74,11 +73,6 @@ export const Challenge = ({
         <div className="max-w-prose mx-auto flex justify-between ">
           <div className="prose">
             <h4 className="my-0 text-gray-500">{challenge.name}</h4>
-            <Countdown
-              countdownToDate={challenge.endDate}
-              completeText={null}
-              tickdownSuffix={"remaining"}
-            />
             {!challengeComplete && (
               <h4 className="pt-8 text-gray-500">
                 Question{" "}

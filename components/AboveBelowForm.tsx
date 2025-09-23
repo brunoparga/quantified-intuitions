@@ -45,7 +45,7 @@ export const AboveBelowForm = ({
       return;
     }
 
-    await fetch("/api/v0/createTeamAboveBelowAnswer", {
+    await fetch("/api/createTeamAboveBelowAnswer", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -129,6 +129,13 @@ export const AboveBelowForm = ({
               answer={false}
               stringAnswer={aboveBelowQuestion.preciseAnswer}
             />
+            {aboveBelowQuestion.context && (
+              <div className="sm:col-span-6 block text-sm text-gray-600 text-center prose">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {aboveBelowQuestion.context}
+                </ReactMarkdown>
+              </div>
+            )}
             <div className="sm:col-span-6 block text-sm font-medium text-gray-500 text-center prose">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {"Source: " + aboveBelowQuestion.source}

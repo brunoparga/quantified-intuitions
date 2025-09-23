@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { auth } from "../../../lib/auth";
-
-import { Prisma } from "../../../lib/prisma";
-import { CHALLENGE_CONFIDENCE_INTERVAL } from "../../../lib/services/magicNumbers";
-import { challengeScore } from "../../../lib/services/scoring";
+import { Prisma } from "../../lib/prisma";
+import { CHALLENGE_CONFIDENCE_INTERVAL } from "../../lib/services/magicNumbers";
+import { challengeScore } from "../../lib/services/scoring";
 
 interface Request extends NextApiRequest {
   body: {
@@ -15,6 +13,7 @@ interface Request extends NextApiRequest {
 }
 const createTeamAnswer = async (req: Request, res: NextApiResponse) => {
   const { questionId, lowerBound, upperBound, teamId } = req.body;
+  
   if (
     typeof questionId !== "string" ||
     typeof lowerBound !== "number" ||
@@ -27,24 +26,19 @@ const createTeamAnswer = async (req: Request, res: NextApiResponse) => {
     return;
   }
 
-  const session = await auth(req, res);
-  if (!session) {
-    res.status(401).json({
-      error: "unauthorized",
-    });
-    return;
-  }
   const calibrationQuestion = await Prisma.calibrationQuestion.findUnique({
     where: {
       id: questionId,
     },
   });
+  
   if (!calibrationQuestion) {
     res.status(404).json({
       error: "question not found",
     });
     return;
   }
+  
   const score = challengeScore(
     lowerBound,
     upperBound,
@@ -53,7 +47,7 @@ const createTeamAnswer = async (req: Request, res: NextApiResponse) => {
     calibrationQuestion.useLogScoring,
     calibrationQuestion.C
   );
-  console.log(score);
+  
   const teamFermiAnswer = await Prisma.teamFermiAnswer.create({
     data: {
       teamId,
@@ -66,6 +60,7 @@ const createTeamAnswer = async (req: Request, res: NextApiResponse) => {
         calibrationQuestion.answer <= upperBound,
     },
   });
+  
   res.status(201).json(teamFermiAnswer);
 };
 
