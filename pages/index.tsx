@@ -2,58 +2,26 @@ import { BoltIcon, PlayIcon } from "@heroicons/react/24/solid"
 import { AppCard } from "../components/AppCard"
 import { Footer } from "../components/Footer"
 import { MailingListSignup } from "../components/MailingListSignup"
-import { NavbarGeneric } from "../components/NavbarGeneric"
+import { NavbarChallenge } from "../components/NavbarChallenge"
 
 export const apps = [
-  {
-    name: "Pastcasting",
-    description: "Predict past events to rapidly practise forecasting",
-    href: "/pastcasting",
-    icon: <PlayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-  },
-  {
-    name: "Calibration",
-    description: "Answer trivia questions to calibrate your uncertainty",
-    href: "/calibration",
-    icon: <PlayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-  },
   {
     name: "The Estimation Game",
     description: "Team up with your friends to play our monthly estimation quiz",
     href: "/estimation-game",
     icon: <PlayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-  },
-  {
-    name: "Anki with Uncertainty",
-    description: "Turn any flashcard deck into a calibration training tool",
-    href: "/anki-with-uncertainty",
-    icon: <PlayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-  },
-  {
-    name: "Fatebook",
-    description: "The fastest way to track your predictions",
-    href: "https://fatebook.io",
-    icon: <PlayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-    verb: "Play"
-  },
-  {
-    name: "Fatebook for Slack",
-    description: "Track your predictions, right where your team works",
-    href: "https://fatebook.io/for-slack",
-    icon: <BoltIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />,
-    verb: "Add to Slack" 
-  },
+  }
 ]
 
 const IndexPage = () => {
   return (
     <div className="flex flex-col min-h-screen ">
-      <NavbarGeneric />
+      <NavbarChallenge />
       <div className="bg-gray-50 grow">
         <div className="px-4 pt-12 lg:pt-16 mx-auto max-w-6xl">
           <div className="prose mx-auto">
             <h2 className="text-3xl mb-2 font-extrabold text-gray-900">
-              Quantified Intuitions
+              Estimation Game
             </h2>
             <h3 className="text-gray-600">Practice assigning credences to outcomes with a quick feedback loop</h3>
           </div>

@@ -3,18 +3,18 @@ import { DefaultSeo } from "next-seo";
 export const Meta = () => {
   return (
     <DefaultSeo
-      titleTemplate="%s - Quantified Intuitions"
-      defaultTitle="Quantified Intuitions"
+      titleTemplate="%s - Estimation Game"
+      defaultTitle="Estimation Game"
       description="Quantified Intuitions helps you practice assigning credences to outcomes with a quick feedback loop."
-      canonical="https://www.quantifiedintuitions.org/"
+      canonical="https://estimation.annetatargalt.ee/"
       openGraph={{
         type: "website",
         locale: "en_US",
-        url: "https://www.quantifiedintuitions.org/",
-        title: "Quantified Intuitions",
+        url: "https://estimation.annetatargalt.ee/",
+        title: "Estimation Game",
         description:
           "Quantified Intuitions helps you practice assigning credences to outcomes with a quick feedback loop.",
-        site_name: "Quantified Intuitions",
+        site_name: "Estimation Game",
         images: [
           {
             url: "https://www.quantifiedintuitions.org/athena.png",

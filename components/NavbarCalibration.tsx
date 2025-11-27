@@ -87,7 +87,7 @@ export const NavbarCalibration = () => {
                       <a className="prose">
                         <div className="flex items-center">
                           <ScaleIcon className="w-8 h-8 text-indigo-600" />
-                          <h3 className="m-0 ml-2">Quantified Intuitions</h3>
+                          <h3 className="m-0 ml-2">Estimation Game by Quantified Intuitions</h3>
                         </div>
                       </a>
                     </Link>
